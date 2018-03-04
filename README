@@ -1,0 +1,72 @@
+------To set up the Project:
+
+If you do not have an active ROS workspace, you can create one by:
+
+$ mkdir -p ~/catkin_ws/src
+$ cd ~/catkin_ws/
+$ catkin_make
+
+Now that you have a workspace, clone or download the project repository into the src directory of your workspace:
+
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/udacity/RoboND-Perception-Project.git
+
+Important Note: If you have the kinematics Pick and Place project in the same ROS Workspace as this project, please remove the gazebo_grasp_plugin directory from this project.
+
+Next, install missing dependencies using rosdep install:
+
+$ cd ~/catkin_ws
+$ rosdep install --from-paths src --ignore-src --rosdistro=kinetic -y
+
+Build the project:
+
+$ cd ~/catkin-ws
+$ catkin_make
+
+Add the following line to your .bashrc file:
+
+export GAZEBO_MODEL_PATH=~/catkin_ws/src/RoboND-Perception-Project/pr2_robot/models:$GAZEBO_MODEL_PATH
+
+This allows Gazebo to find custom models used in this project.
+
+If you haven’t already, the following line can be added to your .bashrc to auto-source all new terminals:
+
+source ~/catkin_ws/devel/setup.bash
+
+Once your environment is setup correctly and built the project, you can launch the project demo from a sourced terminal by:
+
+$ cd ~/catkin_ws/src/RoboND-Perception-Project/pr2_robot/scripts
+$ chmod u+x pr2_safe_spawner.sh
+$ ./pr2_safe_spawner.sh
+
+
+------To do the Project:
+
+First, you need to choose a world (a group of objects for the pick_place_project). These worlds are located in the /pr2_robot/worlds/ folder, namely the test_*.world files. 
+
+By default, you start with the test1.world but you can modify that in the pick_place_project.launch file in the /pr2_robot/launch/ folder
+
+Generate a training set of features for the objects in your pick lists (see the pick_list_*.yaml files in /pr2_robot/config/). Each pick list corresponds to a world and thus indicates what items will be present in that scenario. To generate the training set, you will have to modify the models list in the capture_features.py script, which is located in
+/sensor_stick/scripts/.
+
+Generating features:
+
+$ cd ~/catkin_ws
+$ roslaunch sensor_stick training.launch
+$ rosrun sensor_stick capture_features.py
+
+When it finishes running you should have a training_set.sav file containing the features and labels for the dataset. 
+Note: The training_set.sav file will be saved in your catkin_ws folder.
+
+Training SVM:
+
+$ cd ~/catkin_ws
+$ rosrun sensor_stick train_svm.py
+
+Running the above command will also result in your trained model being saved in a model.sav file. 
+Note: This model.sav file will be saved in the catkin_ws folder.
+
+Test with the actual project scene to see if your recognition code is successful.
+
+$ roslaunch pr2_robot pick_place_project.launch
+$ rosrun pr2_robot project_template.py
