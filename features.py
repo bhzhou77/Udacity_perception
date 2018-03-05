@@ -63,7 +63,10 @@ def compute_normal_histograms(normal_cloud):
         norm_z_vals.append(norm_component[2])
 
     # Compute histograms of normal values (just like with color)
-    nbins = 32
+    # I have to use just 1 bin for the current object settings. The reason
+    # could be that all the objects shown here are very similar in shapes,
+    # and not using the shape information increases accuracy.
+    nbins = 1
     bins_range = (-1,1)
     norm_x_hist = np.histogram(norm_x_vals,bins=nbins,range=bins_range)
     norm_y_hist = np.histogram(norm_y_vals,bins=nbins,range=bins_range)
