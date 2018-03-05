@@ -124,8 +124,8 @@ sense of the accuracy, I provided the confusion matrix below:
 <img src="08_confusion_matrix_world3.png" alt="Drawing" style="width: 400px;"/>
 
 ## Final results
-For each world, I run the process as discussed above to detect, classify and 
-label objects. I showed the corresponding results as follows:
+I used the world 3 to train the classifier and obtained a single model that could be used to 
+classify and label objects for all the 3 worlds. I showed the corresponding results as follows:
 
 ### World 1
 
@@ -148,4 +148,13 @@ challenge due to time issues. I did not get 100% accuracy during training as
 shown by the confusion matrix for the world 3 (confusion matrices for 
 world 1 and 2 are not shown). However, but tuning certain parameters in the
 algorithms, such as leaf_size in downsampling, higher accuracy during training
-is achievable.
+is achievable. One more thing to note is that I chose the bin number in the
+function `compute_normal_histograms()` to be 1, because larger bin number 
+give bad results. This seems strange, since it means shape information is not 
+important at all. My understanding is that the objects provided by the 3 world
+files are very similar to each other in their shapes, and thus, more shape information
+could bring confusion to the classifier. I also tried to reduce the feature
+space of color to avoid overfitting, and tried to use other kernels of SVM. However, 
+so far, 32 bins of color histograms , 1 bin of shape normal histograms and 'rbf' kernel 
+of SVM worked the best. I still have some doubt on this, and further investigation might 
+be needed.
